@@ -17,7 +17,7 @@ var rm bool
 
 var (
 	Version string
-	Build   string
+	Build string
 )
 
 func main() {
@@ -56,11 +56,11 @@ func check() {
 
 func banner() {
 	fmt.Println()
-	fmt.Println("   __  _ ___                           ____")
-	fmt.Println("  / /_(_| _ )   ____ ___     _________/ / /__")
-	fmt.Println(" / __/ / __ \\/|/ __ `__ \\   / ___/ __  / //_/")
-	fmt.Println("/ /_/ / /_/  </ / / / / /  / /__/ /_/ / ,<")
-	fmt.Println("\\__/_/\\____/\\/_/ /_/ /_/   \\___/\\__,_/_/|_|")
+	fmt.Println("   __  _ ___                           ____           __         ____")
+	fmt.Println("  / /_(_| _ )   ____ ___     _________/ / /__   _____/ /_  ___  / / /")
+	fmt.Println(" / __/ / __ \\/|/ __ `__ \\   / ___/ __  / //_/  / ___/ __ \\/ _ \\/ / /")
+	fmt.Println("/ /_/ / /_/  </ / / / / /  / /__/ /_/ / ,<    (__  ) / / /  __/ / /  ")
+	fmt.Println("\\__/_/\\____/\\/_/ /_/ /_/   \\___/\\__,_/_/|_|  /____/_/ /_/\\___/_/_/")
 	fmt.Println()
 	fmt.Println("Version : ", Version)
 	fmt.Println("Build   : ", Build)
