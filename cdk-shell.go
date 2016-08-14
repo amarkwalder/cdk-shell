@@ -62,8 +62,8 @@ func banner() {
 	fmt.Println("/ /_/ / /_/  </ / / / / /  / /__/ /_/ / ,<")
 	fmt.Println("\\__/_/\\____/\\/_/ /_/ /_/   \\___/\\__,_/_/|_|")
 	fmt.Println()
-	fmt.Println("Version         : ", Version)
-	fmt.Println("Git commit hash : ", Build)
+	fmt.Println("Version : ", Version)
+	fmt.Println("Build   : ", Build)
 	fmt.Println()
 }
 
