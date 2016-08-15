@@ -3,15 +3,15 @@ package main
 import (
 	"os/exec"
 	"os"
-	"io"
 	"os/signal"
 	"fmt"
 	"flag"
 	"path/filepath"
-	"github.com/kr/pty"
 )
 
 var container string
+var image string
+var command string
 var mount string
 var rm bool
 
@@ -31,6 +31,8 @@ func main() {
 
 func parse() {
 	flag.StringVar(&container, "container", "cdk", "CDK container name")
+	flag.StringVar(&image, "image", "busybox", "container image to start")
+	flag.StringVar(&command, "command", "sh", "command run in container")
 	flag.StringVar(&mount, "mount", ".", "mount directory")
 	flag.BoolVar(&rm, "rm", false, "remove container at startup")
 	flag.Parse()
@@ -90,11 +92,11 @@ func checkerror(err error) {
 }
 
 func signalhook() {
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
+	signalchannel := make(chan os.Signal, 1)
+	signal.Notify(signalchannel)
 	go func() {
-		for sig := range c {
-			fmt.Printf("\nCaptured %v, stopping docker container and exiting.\n", sig)
+		for sig := range signalchannel {
+			fmt.Printf("\n\nCaptured signal '%v', stopping docker container and exiting.\n\n", sig)
 			dockerkill(container)
 			dockerrm(container)
 			os.Exit(1)
@@ -103,13 +105,14 @@ func signalhook() {
 }
 
 func runcontainer() {
-	cmd := exec.Command("docker", "run", "-it", "--rm", "--name", container, "-v", mount + ":/src", "busybox", "sh")
-	tty, err := pty.Start(cmd)
-	checkerror(err)
-	defer tty.Close()
+	cmd := exec.Command("docker", "run", "-it", "--rm", "--name", container, "-v", mount + ":/src", image, command)
 
-	go io.Copy(tty, os.Stdin)
-	go io.Copy(os.Stdout, tty)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Start()
+	checkerror(err)
 
 	defer cmd.Wait()
 }
