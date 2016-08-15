@@ -5,14 +5,3 @@ go:
 
 script:
 - make dist
-
-deploy:
-  provider: releases
-  api_key:
-    secure: UgiOA1JC1Dk36OUcwXn48zdcYqhFgjfmFaiSDivAOrAzUTqGcuagECmky8EPE1KiSSFLqZ24nmAtS5u6NEgyIPWd0PdzE/qGff44CIyf5xGpjZWWdV+ZI7i1Te8kAFFowTQukZT7KG8mB4rHYpK/iAGGW7OcXhz3KVHW5gzmmISUPflcKXpu3+5es09PLgjQTKU3iSFNgHdVHMlid5u0iaIzZbhf6eqUdiUncPCj+VM2ugbD4kE8iDv5gOYKiJw/u4FSNta2TtQToV8g3SDhRPI4OIb2+r9blWu9pGWiw/hQZz+pjRA1l96ULseA6PWS77FQnnnI5p7Z8soIvhcwW3kPq/RTqaLPxh6KWO4UDaFvAXFA0a00B4HopGGe+1mfOErg7b71C1spz1Tz+1tycDj+Vos/B6ZMvlrozwEjzdXMDXbzTU2R4cZrT7mVmxnMbGQ6CmRCjU4iQXlMCudYMQJTCm4IcOsGrrU1prm0OUwxLojB/9Zd7O5p2szhn/ltXguG4zjznX7yQbd9J4voouJA10YrdOPj7JhE3sJOeCsDR0fVN4yvEWaZy1gO+gS0PX8BzRUKGAcxGCoDu6lLEPmn9RO2ga2c0VHFwzLovwNGOQR8eU3AZ1bgUCxzV1CbfFDuXoRHgSAFDcdbx1WPSpVVT5BNLCRNAVL/bjEfN5Q=
-  file:
-    - dist/$TRAVIS_TAG/cdk-shell-$TRAVIS_TAG-linux_amd64.zip
-    - dist/$TRAVIS_TAG/cdk-shell-$TRAVIS_TAG-linux_arm.zip
-  skip_cleanup: true
-  on:
-    repo: amarkwalder/cdk-shell
