@@ -11,4 +11,5 @@ deploy:
     - dist/1.0.0-rc1/cdk-shell-1.0.0-rc1-darwin_amd64.zip 
   skip_cleanup: true
   on:
+    branch: master
     repo: amarkwalder/cdk-shell
