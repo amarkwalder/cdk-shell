@@ -1,8 +1,13 @@
 language: go
-go:
-- 1.6.3
+go: 1.6.3
+
 script:
-- VERSION=${TRAVIS_TAG:1} make dist
+  - make test
+  - make build-all
+
+before_deploy:
+  - VERSION=${TRAVIS_TAG:1} make dist
+
 deploy:
   provider: releases
   api_key:
