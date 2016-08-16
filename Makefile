@@ -3,15 +3,15 @@
 ################################################################################
 
 
-VERSION=1.0.0-rc1
-PRERELEASE=true
-DRAFT=false
-BUILD=`git rev-parse HEAD`
+VERSION             ?= 1.0.0-rc1
+PRERELEASE           = true
+DRAFT                = false
+BUILD                = `git rev-parse HEAD`
 
-TAG_TARGET_COMMITISH=master
-TAG_BODY=ti&m channel suite Software Development Kit (CDK)
-TAG_DRAFT=false
-TAG_PRERELEASE=true
+TAG_TARGET_COMMITISH = master
+TAG_BODY             = ti&m channel suite Software Development Kit (CDK)
+TAG_DRAFT            = false
+TAG_PRERELEASE       = true
 
 
 ################################################################################
