@@ -64,7 +64,7 @@ dist: guard-VERSION build-all $(foreach PLATFORM,$(PLATFORMS),dist/cdk-shell-$(V
 
 tag: guard-TAG guard-TAG_MSG
 	$(call msg,"Tag release")
-	git tag -a $(TAG) -m $(TAG_MSG)
+	git tag -a "$(TAG)" -m "$(TAG_MSG)"
 .PHONY: tag
 
 checkout: guard-TAG
