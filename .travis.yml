@@ -3,10 +3,9 @@ go: 1.6.3
 
 script:
   - make test
-  - make build-all
 
 before_deploy:
-  - VERSION=${TRAVIS_TAG:1} make dist
+  - make dist
 
 deploy:
   provider: releases

@@ -3,12 +3,11 @@
 ################################################################################
 
 
-VERSION ?= 1.0.0-rc1
+VERSION  = `git symbolic-ref HEAD | sed -e "s/^refs\/heads\/\(v\)\{0,1\}//"`
+@echo Version: $(VERSION)
+
 BUILD    = `git rev-parse HEAD`
-
-
-################################################################################
-
+@echo Build: $(BUILD)
 
 PLATFORMS=linux_amd64 linux_386 linux_arm darwin_amd64 darwin_386 freebsd_amd64 freebsd_386 windows_386 windows_amd64
 
@@ -34,7 +33,7 @@ msg=@printf "\n\033[0;01m>>> %s\033[0m\n" $1
 
 .DEFAULT_GOAL := build
 
-build:
+build: guard-VERSION
 	$(call msg,"Build binary")
 	$(FLAGS_all) go build -ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}" -o cdk-shell$(EXTENSION_$*) $(wildcard ../*.go)
 .PHONY: build
@@ -52,7 +51,7 @@ uninstall:
 
 test:
 	$(call msg,"Run tests")
-	@echo TODO
+	$(FLAGS_all) go test $(wildcard ../*.go)
 .PHONY: test
 
 clean:
@@ -60,28 +59,28 @@ clean:
 	rm -rf dist
 .PHONY: clean
 
-build-all: $(foreach PLATFORM,$(PLATFORMS),dist/$(VERSION)/$(PLATFORM)/.built)
-.PHONY: build
+build-all: guard-VERSION $(foreach PLATFORM,$(PLATFORMS),dist/$(PLATFORM)/.built)
+.PHONY: build-all
 
-dist: build-all $(foreach PLATFORM,$(PLATFORMS),dist/$(VERSION)/cdk-shell-$(VERSION)-$(PLATFORM).zip)
+dist: guard-VERSION build-all $(foreach PLATFORM,$(PLATFORMS),dist/cdk-shell-$(VERSION)-$(PLATFORM).zip)
 .PHONY:	dist 
 
 
 ################################################################################
 
 
-dist/$(VERSION)/%/.built:
+dist/%/.built:
 	$(call msg,"Build binary for $*")
 	rm -f $@
 	mkdir -p $(dir $@)
-	$(FLAGS_$*) go build -ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}" -o dist/$(VERSION)/$*/cdk-shell$(EXTENSION_$*) $(wildcard ../*.go)
+	$(FLAGS_$*) go build -ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}" -o dist/$*/cdk-shell$(EXTENSION_$*) $(wildcard ../*.go)
 	touch $@
 
-dist/$(VERSION)/cdk-shell-$(VERSION)-%.zip:
+dist/cdk-shell-$(VERSION)-%.zip:
 	$(call msg,"Create ZIP for $*")
 	rm -f $@
 	mkdir -p $(dir $@)
-	zip -j $@ dist/$(VERSION)/$*/*
+	zip -j $@ dist/$*/*
 
 guard-%:
 	@ if [ "${${*}}" = "" ]; then \
