@@ -3,10 +3,9 @@
 ################################################################################
 
 
-VERSION  = $(shell git rev-parse --abbrev-ref HEAD | sed -e "s/^refs\/heads\/\(v\)\{0,1\}//")
-BUILD    = $(shell git rev-parse HEAD)
+BUILD               = $(shell git rev-parse HEAD)
 
-PLATFORMS=linux_amd64 linux_386 linux_arm darwin_amd64 darwin_386 freebsd_amd64 freebsd_386 windows_386 windows_amd64
+PLATFORMS           = linux_amd64 linux_386 linux_arm darwin_amd64 darwin_386 freebsd_amd64 freebsd_386 windows_386 windows_amd64
 
 FLAGS_all           = GOPATH=$(GOPATH)
 FLAGS_linux_amd64   = $(FLAGS_all) GOOS=linux GOARCH=amd64
@@ -35,7 +34,7 @@ build: guard-VERSION
 	$(FLAGS_all) go build -ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}" -o cdk-shell$(EXTENSION_$*) $(wildcard ../*.go)
 .PHONY: build
 
-install: build
+install: guard-VERSION build
 	$(call msg,"Install cdk-shell")
 	mkdir -p /usr/local/bin/
 	cp cdk-shell /usr/local/bin/
