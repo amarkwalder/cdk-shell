@@ -3,7 +3,7 @@
 ################################################################################
 
 
-VERSION  = $(shell git symbolic-ref HEAD | sed -e "s/^refs\/heads\/\(v\)\{0,1\}//")
+VERSION  = $(shell git rev-parse --abbrev-ref HEAD | sed -e "s/^refs\/heads\/\(v\)\{0,1\}//")
 BUILD    = $(shell git rev-parse HEAD)
 
 PLATFORMS=linux_amd64 linux_386 linux_arm darwin_amd64 darwin_386 freebsd_amd64 freebsd_386 windows_386 windows_amd64
