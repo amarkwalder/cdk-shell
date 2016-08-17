@@ -3,6 +3,8 @@ go: 1.6.3
 
 script:
   - make test
+  - VERSION=x.y.z make dist 
+  - make clean
 
 before_deploy:
   - VERSION=${TRAVIS_TAG:1} make dist
