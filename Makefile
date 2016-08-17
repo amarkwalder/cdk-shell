@@ -3,7 +3,7 @@
 ################################################################################
 
 
-VERSION  = `git symbolic-ref HEAD | sed -e "s/^refs\/heads\/\(v\)\{0,1\}//"`
+VERSION  = `git rev-parse --abbrev-ref HEAD | sed -e "s/^heads\/\(v\)\{0,1\}//"`
 @echo Version: $(VERSION)
 
 BUILD    = `git rev-parse HEAD`
