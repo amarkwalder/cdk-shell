@@ -3,11 +3,8 @@
 ################################################################################
 
 
-VERSION  = `git rev-parse --abbrev-ref HEAD | sed -e "s/^heads\/\(v\)\{0,1\}//"`
-@echo Version: $(VERSION)
-
-BUILD    = `git rev-parse HEAD`
-@echo Build: $(BUILD)
+VERSION  = $(shell git symbolic-ref HEAD | sed -e "s/^refs\/heads\/\(v\)\{0,1\}//")
+BUILD    = $(shell git rev-parse HEAD)
 
 PLATFORMS=linux_amd64 linux_386 linux_arm darwin_amd64 darwin_386 freebsd_amd64 freebsd_386 windows_386 windows_amd64
 
@@ -64,6 +61,16 @@ build-all: guard-VERSION $(foreach PLATFORM,$(PLATFORMS),dist/$(PLATFORM)/.built
 
 dist: guard-VERSION build-all $(foreach PLATFORM,$(PLATFORMS),dist/cdk-shell-$(VERSION)-$(PLATFORM).zip)
 .PHONY:	dist 
+
+tag: guard-TAG guard-TAG_MSG
+	$(call msg,"Tag release")
+	git tag -a $(TAG) -m $(TAG_MSG)
+.PHONY: tag
+
+checkout: guard-TAG
+	$(call msg,"Switch to tag '$(TAG)'")
+	git checkout $(TAG)
+.PHONY: checkout
 
 
 ################################################################################
